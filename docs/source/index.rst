@@ -15,6 +15,10 @@ transfer in various engineering applications. Its strength lies in robust meshin
 extensive physics models, and specialized modules for applications like
 combustion and multiphase flow.
 
+.. attention::
+
+   Note that much of the discussion presented is based on Ansys training and experience of the author. 
+
 Chapters
 ========
 
