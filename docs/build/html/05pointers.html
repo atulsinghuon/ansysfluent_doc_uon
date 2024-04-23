@@ -1,0 +1,527 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Best practices" href="06bestpractices.html" /><link rel="prev" title="How to post process Fluent jobs" href="04postprocessing.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>General approaches for Ansys Fluent - Ansys Fluent on ADA documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=fff8dd4d" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Ansys Fluent on ADA  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/ansysfluentlogo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">Ansys Fluent on ADA  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="01submitfluent.html">Submit a Fluent job on ADA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02FluentScaling.html">Some tips and tricks to improve scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03journaling.html">How to construct a journal file for Fluent batch jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04postprocessing.html">How to post process Fluent jobs</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">General approaches for Ansys Fluent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="06bestpractices.html">Best practices</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="general-approaches-for-ansys-fluent">
+<h1>General approaches for Ansys Fluent<a class="headerlink" href="#general-approaches-for-ansys-fluent" title="Link to this heading">#</a></h1>
+<p>This page gives general pointers for various steps associated with setting up a generic CFD case (may or may not apply to use on HPC).</p>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Note that <a class="reference internal" href="#general-approaches-for-ansys-fluent"><span class="std std-ref">General approaches for Ansys Fluent</span></a> and <a class="reference internal" href="06bestpractices.html#best-practices"><span class="std std-ref">Best practices</span></a> are discussing pointers, best practices, tips and tricks for Ansys Fluent, and are not specific for HPC usage.</p>
+</div>
+<section id="cad-modelling">
+<h2>CAD Modelling<a class="headerlink" href="#cad-modelling" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>SPACECLAIM which is the default CAD tool for Ansys Fluent, is a Windows software. Hence the files saved from SPACECLAIM should be linux compatible.</p></li>
+<li><p>Incase a CAD model is not readable in the linux version of Flunet (on HPC), in your Windows, change this format to the appropriate on using SPACECLAIM, before importing it with <code class="docutils literal notranslate"><span class="pre">/file/read-case/</span></code> within an HPC environment.</p></li>
+<li><p>Named selections are also not gauranteed to be identified within Fluent meshing. Hence, this need to be converted to a correct CAD format (.pmdb, .STEP, .iges etc) within SPACECLAIM, and tested for each before a corrected version could be identified for HPC usage.</p></li>
+<li><p>Note that .pmdb format also significantly reduces import time within Fluent sesison.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/importpmdb.png" src="_images/importpmdb.png" />
+</figure>
+<ul class="simple">
+<li><p>Design modellor (another CAD tool within static structural standalone of workbench) can also be used to create .agdb file format that can be used in linux version of Flunet for HPC. Test before using with a simple CAD file.</p></li>
+</ul>
+<section id="watertight-geometries">
+<h3>Watertight geometries<a class="headerlink" href="#watertight-geometries" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>The watertight geometry workflow is not available in workbench, but only in the standalone operation.</p></li>
+<li><p>Import geometry within the watertight geometry workflow does not support .msh, .stl, .tgf formats.</p></li>
+<li><p>Periodicity is not directly supported and may be required to be created manually. This applies for both transational and rotational periodicity.</p></li>
+<li><p>In watertight geometry workflow, there is no local curvature and or proximity size controls (for v2019R2, and may update with higher versions).</p></li>
+<li><p>One global boundary layer will control on all walls.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/watertight.png" src="_images/watertight.png" />
+</figure>
+<p>The image above gives a basic CAD import workflow that is used to create a mesh suitable for running a CFD solver.</p>
+</section>
+<section id="surface-meshing">
+<h3>Surface meshing<a class="headerlink" href="#surface-meshing" title="Link to this heading">#</a></h3>
+<p>Following a geometry import, the next step is to surface mesh the model.</p>
+<ul class="simple">
+<li><p>Surface mesh is the starting point for enclosing regions for creating a volume mesh.</p></li>
+<li><p>The triangular surface mesh is controlled by the sizing function.</p></li>
+<li><p>Global sizing function defined by the entries in <code class="docutils literal notranslate"><span class="pre">Create</span> <span class="pre">surface</span> <span class="pre">mesh</span> <span class="pre">task</span></code></p></li>
+<li><p>Global mesh settings are also valid and applied on all surfaces.</p></li>
+<li><p>Local size meshing are defined in <code class="docutils literal notranslate"><span class="pre">Insert</span> <span class="pre">local</span> <span class="pre">sizing</span> <span class="pre">tasks</span></code></p></li>
+<li><p>Local mesh settings provide control in specific areas of the model.</p></li>
+<li><p>As many as wanted local mesh sizings can be added.</p></li>
+<li><p>Mesh size on scoped zones can be smaller than the target size in areas where a smaller size is calculated by a global size function.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/meshsizes.png" src="_images/meshsizes.png" />
+</figure>
+<ul class="simple">
+<li><p>Named selections within SPACECLAIM is another important feature that can be used to set custom surface (and volume mesh) settings.</p></li>
+<li><p>BOI (Bodies of influences) should not have any shared topologies. This can be achieved by creating a separate component.</p></li>
+<li><p>Multiple BOIs can be used however.</p></li>
+<li><p>Overlapping BOI bodies are possible so long as they are not connected.</p></li>
+<li><p>Mesh previews are available for maximum and minimum sizes of cell sizes.</p></li>
+<li><p>Growth rate can be decreased to achieve a finer resolution at the expense of longer computation time. Simple tests could be conducted with a coarses growth rates.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/growthrate.png" src="_images/growthrate.png" />
+</figure>
+<ul class="simple">
+<li><p>Curvature and proximity will refine around the curvatures while proximity will be scoped to edges. (Use 10-12 degrees for aerodynamic surfaces.)</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/curvature_proximity.png" src="_images/curvature_proximity.png" />
+</figure>
+<ul class="simple">
+<li><p>Mesh quality can be reported in the Fluent console. Say for the metric of skewness, 0 is a perfect triangle to 1 (degenerate).</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/skew.png" src="_images/skew.png" />
+</figure>
+<ul class="simple">
+<li><p>The volume mesh quality is determined from surface mesh quality. Ideally max surface mesh skewness <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">0.7</span></code> will be good for a volume mesh.</p></li>
+<li><p>Bad surface mesh can be improved by setting an <code class="docutils literal notranslate"><span class="pre">Improve</span> <span class="pre">surface</span> <span class="pre">mesh</span></code> task, after a required quality threshold such has skewness less than 0.7 was difficult to achieve.</p></li>
+<li><p>Ultimately the volume mesh quality will determine the quality of your results.</p></li>
+<li><p>Often worthwile to test by proceeding the available mesh as well, to understand what happens.</p></li>
+</ul>
+</section>
+<section id="volume-meshing">
+<h3>Volume meshing<a class="headerlink" href="#volume-meshing" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Capping surfaces are used to create a volume region which is later used to create a volume mesh.</p></li>
+<li><p>Any combination of solid, fluid or dead regions are allowed to create an enclosure. This is selected at the start where a geometry could contain only solid regions, fluid regions with no voids, or all of the above.</p></li>
+<li><p>Region type can change if the correct type is not assigned apriori.</p></li>
+<li><p>Named selections used to create labels for capping surfaces should not include “inlet” or “outlet”, as this will trigger the zone assignment to change from fluid to solid.</p></li>
+<li><p>A region is assigned fluid region if the body has a name with strings “fluid*”, “air*” or “enclosure”.</p></li>
+<li><p>Any regions sharing “internal” boundaries will change to fluid regions.</p></li>
+<li><p>By default all bodies are considered solid regions and voids are considered dead regions.</p></li>
+<li><p>For cases with high accuracy requirements for boundary layer effects, consider using 10-20 layers for high fidelity resolution.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/bloffset.png" src="_images/bloffset.png" />
+</figure>
+<ul class="simple">
+<li><p>Smooth-transition uses ratio of last prism cell height to the size of the first non BL cell.</p></li>
+<li><p>This is useful for smooth growth rate and prism cell to volume change at outer BL edge.</p></li>
+<li><p>Unfortunately no control over the first cell height is available making it difficult for <code class="docutils literal notranslate"><span class="pre">y+</span></code> calculations.</p></li>
+<li><p>Aspect-ratio uses ratio of the first prism cell height to the size of the base prism.</p></li>
+<li><p>This is useful for variable mesh sizes on boundaries and consistent growth rate.</p></li>
+<li><p>However, again less useful for 1st layer cell height and inconsistent total height.</p></li>
+<li><p>Uniform setting applies same first layer height.</p></li>
+<li><p>This helps to control the first layer height and provides a consistent first layer height.</p></li>
+<li><p>This is also sometimes difficult with high or low aspect-ratio cells.</p></li>
+<li><p>Last ratio uses same first layer height and same ratio of last prism.</p></li>
+<li><p>Four volume meshing are available. Tetrahedral, hexcore, polyhedra, poly-hexcore.</p></li>
+<li><p>In most cases, poly-hexcore achieves a lower cell-count, uses less RAM during solve and achieves faster time to solution than comparable standard hexcore or polyhedral meshes.</p></li>
+<li><p>A hexcore mesh is always non-conformal at the hex-tet transition and mesh can only be used with solvers that support non-conformal cells (Fluent)</p></li>
+<li><p>Buffer layers can be used to control the growth transition and a value of 2 is recommended.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/bufferlayers.png" src="_images/bufferlayers.png" />
+</figure>
+<ul class="simple">
+<li><p>Peel layer is the ability to make the core region in hexa closer or further to the boundary prisms, with a recommended value of 1.</p></li>
+<li><p>Volume mesh quality can be checked by mesh-&gt; Check quality in console. This reports the orthogonal quality.</p></li>
+<li><dl class="simple">
+<dt>orthogonal quality is a measure of alignment between normal vectors of the cell and vectors connecting cell centroids with face centroids and with centroids of neighbouring cells.</dt><dd><ul>
+<li><p>Orthogonal quality ranges from 1 (perfect) to 0 (poor).</p></li>
+<li><p>Ansys Fluent documentation recommends <code class="docutils literal notranslate"><span class="pre">minimum</span> <span class="pre">value</span> <span class="pre">&gt;</span> <span class="pre">0.01</span></code>.</p></li>
+<li><p>Aim for <code class="docutils literal notranslate"><span class="pre">minimum</span> <span class="pre">value</span> <span class="pre">&gt;</span> <span class="pre">0.1</span></code> if the above is not achievable.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+</section>
+<section id="physics-set-up">
+<h2>Physics set up<a class="headerlink" href="#physics-set-up" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Default solver settings only need to change if the simulation is transient or of high speed compressible flow.</p></li>
+<li><p>Commonly used models are Energy (for heat transfer applications), Radiation, Viscous (for turbulent applications).</p></li>
+<li><p>Some advance models being Multiphase, species and combustion, discrete phase.</p></li>
+<li><p>Setting up energy model for heat transfer equations requires defining material properties like specific heat and thermal conductivity, as well as boundary conditions in form of temperature for flow boundaries, and thermal boundary conditions for walls.</p></li>
+<li><p>Similarly, turbulence in Ansys Fluent is defined based on Reynolds number, which is again dependent on length scale of the flow.</p></li>
+<li><p>Internal flow, Re &gt; 2300. For external flow, Re &gt; 500,000 along a surface and Re &gt; 20,000 around an obstacle are termed as turbulent.</p></li>
+<li><p>For materials, a set of pre-defined database is available, which can either be defined or new materials can be created.</p></li>
+<li><p>For incompressible flows, density is constant. For ideal gas properties, piecewise polynomial function can be applied <span class="math notranslate nohighlight">\(\rho = f(T)\)</span>, incompressible ideal gas law can also be applied: <span class="math notranslate nohighlight">\(p = p_{operating}/RT\)</span>. Note that: <span class="math notranslate nohighlight">\(p_{operating}\)</span> should be close to the mean pressure of the problem.</p></li>
+<li><p>For compressible flows: <span class="math notranslate nohighlight">\(\rho = p_{absolute} / RT\)</span> can be used.</p></li>
+<li><p>Operating pressure represents the absolute datum from which all relatives pressures are measured.</p></li>
+<li><p>Pressures specified at the boundary conditions and initial conditions are relative to the operating pressure.</p></li>
+<li><p>Operating pressure is also used to avoid rounding off errors that occur when dynamic pressure differences in a fluid are small compared to the absolute pressure level.</p></li>
+<li><p><span class="math notranslate nohighlight">\(p_{absolute} = p_{operating}+p_{relative}\)</span>.</p></li>
+<li><p>Zones are either defined for cells or boundaries.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/cellzones.png" src="_images/cellzones.png" />
+</figure>
+<ul class="simple">
+<li><p>For instance from the image above, a simulation of copper heating coil in water will require a <span class="blue">fluid zone</span> and a <span class="red">solid zone</span>.</p></li>
+<li><p>The equations of flow and heat transfer will be solved within the <span class="blue">fluid zone</span>. While those of only heat transfer equations will be solved within the <span class="red">solid zone</span>.</p></li>
+<li><p>To account for rotational motion, the impellers are assigned a rotating domain. The <span class="green">impeller fluid zone</span> will use equations in the rotating frame of reference, while elsewhere it will be stationary frame of reference.</p></li>
+<li><p>A porous zone can also be defined, where pressure loss in flow can be determined via user inputs of resistance coefficients to lumped parameter model.</p></li>
+<li><p>Lastly, to define a problem with unique solutions, dependent flow variable information should be displayed at the domain boundaries. i.e. fluxes of mass, momentum, energy etc.</p></li>
+</ul>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Poorly defined boundary conditions can have significant negative impact on your solution.</p>
+</div>
+<ul class="simple">
+<li><p>For geometries creating a (re) circulation zone, allow the flow to develop before an outlet boundary condition is defined.</p></li>
+<li><p>when there is 1 inlet and 1 outlet, velocity inlet and static pressure at outlet will be the most robust definitions. (The inlet total pressure is an implicit result of the prediction.)</p></li>
+<li><p>Mass flow rate at inlet with static pressure at outlet is also a robust definition for 1 inlet and 1 outlet geometries.</p></li>
+<li><p>Total pressure at inlet and static pressure at outlet will be dependent or sensitive to inital guesses.</p></li>
+<li><p>Total pressure or mass flow rate at inlet and outflow boundary at outlet should not be used, as the static pressure level is not fixed.</p></li>
+<li><p>Mass flow at inlet and outflow combination will work only when density is constant.</p></li>
+<li><p>Velocity at inlet and velocity at outlet will make the system numerically unstable.</p></li>
+<li><p>Locations and types of boundary conditions are extremely important for good convergence and accurate results.</p></li>
+</ul>
+</section>
+<section id="solving">
+<h2>Solving<a class="headerlink" href="#solving" title="Link to this heading">#</a></h2>
+<figure class="align-default">
+<img alt="_images/solvelogic.png" src="_images/solvelogic.png" />
+</figure>
+<p>A general approach to solving a CFD probelem is indicated below.</p>
+<blockquote>
+<div><p>The above image generally summarizes the logic to approach solving a CFD case.</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>Fluent has two solvers, pressure-based and density-based. Pressure based default should handle most problems. (Mach 0~2 or 3). Density based solver is only used for higher mach numbers, or for capturing interacting shock waves.</p></li>
+<li><p>Pressure-velocity coupling will be needed by pressure-based solver.</p></li>
+<li><p>SIMPLE is good for majority of basic incompressible applications.</p></li>
+<li><p>Coupled is mostly used by compressible applications. (Pressure-based coupled solver or PBCS). However also preferred for incompressible flows such as bouyancy or rotation.</p></li>
+<li><p>PISO is recommended for transient calculations.</p></li>
+<li><p>SIMPLEC is primarily of academic interests.</p></li>
+<li><p>Under-relaxation factors <span class="math notranslate nohighlight">\(\alpha\)</span> is included to stabalize the iterative process for pressure-based solver.</p></li>
+<li><p>The final converged solution is independent of under-relaxation factors. (Only number of iterations is dependent.)</p></li>
+<li><p>Appropriate settings are also best leared iteratively.</p></li>
+<li><p>Two methods control using the pressure-based coupled solver. These are courant number and pseudo-transient.</p></li>
+<li><p>Courant number (defaults at 200) can be reduced to 15-20, for problems that are difficult to converge of for multiphase and combustion problems.</p></li>
+<li><p>Lower Courant number makes the solution more stable, while higher Courant number converges faster.</p></li>
+<li><p>As with under-relaxation factors, optimal values are best determined from best learned from experience.</p></li>
+<li><p>Peudo-transient option along with Pressure-based coupled solver can lead to better convergence. However, this is slightly more computationally expensive, but is more robust and requires fewer iterations.</p></li>
+<li><p>For spatial discretization setttings, defaults is recommended for most cases.</p></li>
+<li><p>For natural convection problems, where gravity has been activated, the pressure discretization must be changed to PRESTO or body-force weighted.</p></li>
+<li><p>Initialization is required before starting solution. This means every cell in the mesh should be assigned with a value, which will serve as an initial solution for the guess.</p></li>
+<li><p>A realistic solution improves the solution.</p></li>
+<li><p>Poor initial guess may cause the solver to fail during first few iterations.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/hybridization-types.png" src="_images/hybridization-types.png" />
+</figure>
+<ul class="simple">
+<li><p>As seen from the images, standard-hybridization will assign same values to every cell in the mesh. Hybrid initialization is slightly more realistic with non-uniform value distribution. While FMG initialization is much more realistic initialization, will take longer to generate.</p></li>
+<li><p>In general, the closer the initial guess is to the final solution the fewer iterations will be needed to reach convergence.</p></li>
+<li><p>For convergence, the following should generally hold true.</p></li>
+<li><p>All discrete conservation equations, are obeyed in all cells to a specified tolerance.</p></li>
+<li><p>The residual measures the imbalance of the current numerical solution and is related to but not equal to the numerical error.</p></li>
+<li><p>Overall mass, momentum, energy and scalar balances are achieved.</p></li>
+<li><p>Target quantities reach constant values, e.g Pressure drop integral, Local velocity at specified position.</p></li>
+<li><p>Generally a reduce in residuals by three orders of magnitude can be a sign of convergence, although this can be assessed via several means.</p></li>
+<li><p>Scaled energy residual should reduce to <span class="math notranslate nohighlight">\(1e-6\)</span> for pressure-based solver.</p></li>
+<li><p>Scaled species residual may need to decrease to <span class="math notranslate nohighlight">\(1e-5\)</span> to achieve species balance.</p></li>
+<li><p>Best practice is to also monitor quantitative variables to decide convergence.</p></li>
+<li><p>This can be done by surface reports, report definitions for key variables/quantities.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/convergediter.png" src="_images/convergediter.png" />
+</figure>
+<ul class="simple">
+<li><p>As indicated in the image above, convergence criteria can be specified, on reaching those values, the solution would be declared converged by the solver.</p></li>
+<li><p>The net flux imbalance (checked via flux reports) should be less than 1% of the smallest flux through the domain boundary.</p></li>
+</ul>
+</section>
+<section id="postprocessing">
+<h2>Postprocessing<a class="headerlink" href="#postprocessing" title="Link to this heading">#</a></h2>
+<p>Post processing (for ADA) is best done via the Visualization nodes as discussed in the section <a class="reference internal" href="04postprocessing.html#via-visualization-nodes"><span class="std std-ref">Via Visualization Nodes</span></a>. However is best done using the saved .CAS and .DAT format of the completed solution in Ansys.</p>
+<ul class="simple">
+<li><p>Surfaces, are either planar, cylinderical etc, cutting through the model.</p></li>
+<li><p>Iso-surface is to create 3D surface showing where a given value exists (temperature, concentration etc)</p></li>
+<li><p>Mesh, contours, vectors, pathlines, particle tracks etc.</p></li>
+<li><p>Scenes can be created that can overlay multiple renders onto one another, giving a combination of contours, pathlines, vectors or others.</p></li>
+<li><p>Plots feature is used for XY (2D) plots based on pre-defined values of the quantities of interests.</p></li>
+<li><p>Reports (Flux, Surface integrals or Volume integral) will indicate cumulative value of chosen quantity of interest.</p></li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="06bestpractices.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Best practices</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="04postprocessing.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">How to post process Fluent jobs</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Atul Singh
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">General approaches for Ansys Fluent</a><ul>
+<li><a class="reference internal" href="#cad-modelling">CAD Modelling</a><ul>
+<li><a class="reference internal" href="#watertight-geometries">Watertight geometries</a></li>
+<li><a class="reference internal" href="#surface-meshing">Surface meshing</a></li>
+<li><a class="reference internal" href="#volume-meshing">Volume meshing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#physics-set-up">Physics set up</a></li>
+<li><a class="reference internal" href="#solving">Solving</a></li>
+<li><a class="reference internal" href="#postprocessing">Postprocessing</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

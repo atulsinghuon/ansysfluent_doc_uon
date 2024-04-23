@@ -1,0 +1,638 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="General approaches for Ansys Fluent" href="05pointers.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2024.01.29 -->
+        <title>Best practices - Ansys Fluent on ADA documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/tabs.css?v=a5c4661c" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=fff8dd4d" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Ansys Fluent on ADA  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo" src="_static/ansysfluentlogo.png" alt="Logo"/>
+  </div>
+  
+  <span class="sidebar-brand-text">Ansys Fluent on ADA  documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="01submitfluent.html">Submit a Fluent job on ADA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02FluentScaling.html">Some tips and tricks to improve scaling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="03journaling.html">How to construct a journal file for Fluent batch jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="04postprocessing.html">How to post process Fluent jobs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="05pointers.html">General approaches for Ansys Fluent</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Best practices</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="best-practices">
+<h1>Best practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h1>
+<p>This page gives general best practices for various CFD applications for which Ansys Fluent can be used.</p>
+<ul class="simple">
+<li><p>Understand why is CFD needed in the first place?</p></li>
+<li><p>This can be best answered, if you want a design and optimization of the components involved. Does accuracy matter and if yes, how much?. Is it a safety analysis, in which case the accuracy should be highly regarded. Or you need to perform a virtual prototype?</p></li>
+</ul>
+<section id="errors">
+<h2>Errors<a class="headerlink" href="#errors" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Errors, in order of magnitude are breifly discussed as follows,</p></li>
+<li><p>Round-off errors is a computer’s ability to work a certain numerical precision. The causes for machine round-off are usually high grid aspect ratios. Large differences in length scales, or large variable range.</p></li>
+<li><p>Identifying round off errors is best done by comparing a solution that has been compared with single precision.</p></li>
+<li><p>Iteration errors is the difference between converged solution and the solution at iteration <cite>n</cite>. These are best observed by plotting the value of quantities of interest as the solution iterates and selecting a tighter convergence criterion and continueing iterating and plotting.</p></li>
+<li><p>This can be repeated until values of interests no longer change. And finally, report mass and energy fluxes to ensure these are being conserved.</p></li>
+<li><p>Discretization errors is the difference between the solution on a given grid and exact solution on an infinitely fine grid.</p></li>
+<li><p>Solution errors is the difference between converged solution on current grid and “exact” solution of model equations.</p></li>
+<li><p>Model errors is the difference between exact solution of the model equations and reality (data or analytic solution).</p></li>
+<li><p>Due to model errors, discrepancies between data and calculations can remain, even after all numerical errors have become insignificant.</p></li>
+</ul>
+</section>
+<section id="mesh">
+<h2>Mesh<a class="headerlink" href="#mesh" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Chosing mesh strategy, should require answering the question, how accurate does one want it to be?, how much effecient should it be and how easy is it to generate the same?</p></li>
+<li><p>More specifically, what’s the maximum skewness and aspect ratio that can be taken as appropriate, should there be low cell count for resolving overall flow features vs high cell count for greater details and the time available for the defined mesh settings.</p></li>
+<li><p>The goal is to find the best compromise between accuracy, efficiency and easiness to generate the mesh.</p></li>
+<li><p>To capture flow physics, meshes should be able to capture boundary layers, heat transfer, wakes/shocks and flow gradients.</p></li>
+<li><p>Recommended meshing guidielines for boundary layers include resolving both, veolocity and thermal boundary layers.</p></li>
+<li><p>Mesh should having minimum 10-15 elements across boundary layer.</p></li>
+<li><p>Mesh expansion ratio in the wall normal direction should be moderate <span class="math notranslate nohighlight">\(\leq 1.2 .....1.3\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(y+ ~ 1\)</span> for heat transfer and transition modelling.</p></li>
+</ul>
+<figure class="align-default" id="id1">
+<img alt="_images/badgoodvprofile.png" src="_images/badgoodvprofile.png" />
+<figcaption>
+<p><span class="caption-text">Capturing the boundary layer appropriately is key.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<img alt="_images/badgoodmesh.png" src="_images/badgoodmesh.png" />
+<figcaption>
+<p><span class="caption-text">Types of mesh on which the quality depends.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id3">
+<img alt="_images/suddenbl.png" src="_images/suddenbl.png" />
+<figcaption>
+<p><span class="caption-text">Sudden changes in a mesh density should be avoided.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id4">
+<img alt="_images/hex-tet-comp1.png" src="_images/hex-tet-comp1.png" />
+<figcaption>
+<p><span class="caption-text">Quad/Hex aligned with flow are more accurate than tri with same interval size.
+Image shows contours of axial velocity magnitude for an inviscid co-flow jet.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id5">
+<img alt="_images/complexhex-tet.png" src="_images/complexhex-tet.png" />
+<figcaption>
+<p><span class="caption-text">For complex flows without dominant flow direction, Quad and Hex meshes lose their advantage. (Contours of temperature for inviscid flow.)</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="turbulence">
+<h2>Turbulence<a class="headerlink" href="#turbulence" title="Link to this heading">#</a></h2>
+<p>The following turbulence models is available within Ansys Fluent.</p>
+<figure class="align-default" id="id6">
+<img alt="_images/dns-les-rans.png" src="_images/dns-les-rans.png" />
+<figcaption>
+<p><span class="caption-text">Three types of approaches to turbulent flow.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>DNS or Direct Numerical Simulation numerically solves teh full unsteady Navier-Stokes equation.</p></li>
+<li><p>DNS also resolves the whole spectrum of scales.</p></li>
+<li><p>Modelling of other terms in NS is not required.</p></li>
+<li><p>Computationally expensive, neither practical for industrial applications.</p></li>
+<li><p>LES or Large eddy simulation solves the filtered NS equations.</p></li>
+<li><p>Some turbulence is directly resolved.</p></li>
+<li><p>Less expensive than DNS but efforts and computatinoal resources needed are still too large for most practical applications.</p></li>
+<li><p>RANS or Reynolds Averaged Navier Stokes Simulation solves the time-averaged NS equations.</p></li>
+<li><p>All turbulent flow is modelled.</p></li>
+<li><p>For most problems, the time-averaged flwo are all that is needed.</p></li>
+<li><p>Widely used industrial approach.</p></li>
+</ul>
+<figure class="align-default" id="id7">
+<img alt="_images/rans.png" src="_images/rans.png" />
+<figcaption>
+<p><span class="caption-text">Increasing computatinal cost of each turbulent approach in Fluent.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>For general approaches, Realizable <span class="math notranslate nohighlight">\(k-\epsilon\)</span> or SST <span class="math notranslate nohighlight">\(k-\omega\)</span> models are recommended choices for standard cases.</p></li>
+<li><p>Where highly accurate resolution of boundary layers is critical, such as applications involving flow separation or finely resolved ehat transfer profiles, SST <span class="math notranslate nohighlight">\(k-\omega\)</span> is preferred.</p></li>
+<li><p>If only a crude estimate of turbulence is required, the standard <span class="math notranslate nohighlight">\(k-\epsilon\)</span> model can be used.</p></li>
+<li><p>This might occcur in problems where teh solution depends more strongly on other physical models or modelling assumptions than on the turbulence model.</p></li>
+<li><p>The dimensional velocity profile as <span class="math notranslate nohighlight">\(U/U_{\tau} = u_{\tau} = \sqrt{\frac{\tau_{wall}}{\rho}}\)</span>, defines the wall distance as <span class="math notranslate nohighlight">\(y+ = \frac{y\cdot u_{\tau}}{\nu}\)</span></p></li>
+</ul>
+<figure class="align-default" id="id8">
+<img alt="_images/loglaw.png" src="_images/loglaw.png" />
+<figcaption>
+<p><span class="caption-text">Using non-dimensional velocity and non-dimensional distance from the wall results in a predictable boundary layer profile for a wide range of flows.</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>For CFD, the most important are the viscous sublayer, immediately adjacent to the wall and log-layer, slightly further away from the wall.</p></li>
+<li><p>Different turbulent models require different inputs depending on whether the simulation eneds to resolve teh viscous sublayer with the mesh.</p></li>
+<li><p>Using wall functions to involve utilizing predictable dimensionless boundary layer profile shown on slides 9 &amp; 10 to determine conditions at wall from conditions at the centroid of the wall adjacent mesh cell.</p></li>
+<li><p>This means the cell should be located in the log-layer.</p></li>
+<li><p>To locate the first cell in log-layer, it should typically have a y+ value such that <span class="math notranslate nohighlight">\(30\leq y+ \leq 300\)</span></p></li>
+<li><dl class="simple">
+<dt>Generally speaking,</dt><dd><ul>
+<li><p>For very high Re, y+ can be higher if still in log layer (for instance a large ship Re~10^9, values greater than 1000 are safe)</p></li>
+<li><p>For very low, but still turbulent Re, the log layer may only extend to y+~ 300, in which case y+~30 would be too coarse to allow a sufficient number of mesh cells across boundary layer.</p></li>
+<li><p>To fully resolve boundary layer on important walls, try to have atleast 10 mesh cells across boundary layers.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><p>Resolving viscous sublayer, first grid cell needs to be at y+~1 and a prism layer mesh with growth rate no higher than ~ 1.2 shoudl be used.</p></li>
+<li><p>This causes the mesh count to increase significantly.</p></li>
+<li><p>If the forces on heat trasnfer on wall are key to your simulation (aerodynamic drag, turbomachinery blade performacne, heat transfer) this is the approach you will take and the recommended turbulence model for most cases is SST <span class="math notranslate nohighlight">\(k-\omega\)</span>.</p></li>
+<li><p>Fewer nodes are needed normal to the wall when wall functions are used compared to resolving the viscous sub-layer with the mesh.</p></li>
+</ul>
+<figure class="align-default" id="id9">
+<img alt="_images/wall-functions.png" src="_images/wall-functions.png" />
+<figcaption>
+<p><span class="caption-text">Red line indicates the first node wall distance reflected by y+ value.</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<section id="example-y-calculation">
+<h3>Example y+ calculation<a class="headerlink" href="#example-y-calculation" title="Link to this heading">#</a></h3>
+<p>A sample y+ calculation is indicated for the following smooth plate flow as follows,</p>
+<figure class="align-default" id="id10">
+<img alt="_images/ypluscalc.png" src="_images/ypluscalc.png" />
+<figcaption>
+<p><span class="caption-text">Flow over flat plate with air at 20m/s, at a given density and viscosity.</span><a class="headerlink" href="#id10" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}Re = \frac{\rho V L}{\mu} = 1.4x10^6 \\\end{split}\]</div>
+</div>
+<p>The target y+, after rearranging, is</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}y+ = \frac{\rho U_{\tau} y } {\mu} \\
+y = \frac{y+ \mu}{U_{\tau} \rho}\end{split}\]</div>
+</div>
+<p><span class="math notranslate nohighlight">\(U_{\tau}\)</span> is now requried  which is obtained as,</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[U_{\tau} = \sqrt {\frac {\tau_{w}}{\rho}}\]</div>
+</div>
+<p>The wall shear stress or <span class="math notranslate nohighlight">\(\tau_{w}\)</span> can be found from the skin friction coefficient, <span class="math notranslate nohighlight">\(C_f\)</span> as,</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\tau_w = \frac{1}{2} C_f \rho U_{\infty} ^2\]</div>
+</div>
+<p>For a smooth plate as shown in the figure, skin friction is obtained as</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[C_f = 0.058 Re_{l} ^ {-0.2}\]</div>
+</div>
+<p>Re being known, will yield the <span class="math notranslate nohighlight">\(C_f\)</span> as follows, aiming for a y+ of 50,</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}C_f = 0.0034 \\\end{split}\\\begin{split}\tau_w = \frac{1}{2} C_f \rho U_{\infty} ^2  = 0.83 (kg/ (ms^2)) \\\end{split}\\\begin{split}U_{\tau} = \sqrt{\frac {\tau_{w}}{\rho}} = 0.82 m/s\\\end{split}\\y = \frac{y+ \mu}{U_{\tau} \rho} = 9 \cdot 10^{-4} m\end{aligned}\end{align} \]</div>
+</div>
+<p>Meaning, the very first cell next to the boundary should have the heigt of approximately 1mm. Aiming for a y+ of 1, 50 will be replaced with 1 in the above formula, giving <span class="math notranslate nohighlight">\(y=1.8 \cdot 10^{-5}\)</span>.</p>
+<ul class="simple">
+<li><p>Wall functions however also have some limitations. In some situation, such as boudnary layer separation, the boundary layer profile is not logarathmic which means that wall functions, which are based on logarithmic velocity profile, do not correctly predict the boundary layer.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/wallfunc-applicable.png" src="_images/wallfunc-applicable.png" />
+</figure>
+<p>Lastly for for turbulent inlet conditions,</p>
+<ul class="simple">
+<li><p>Normal turbulent intensities range from 1% to 5%.</p></li>
+<li><p>Default turbulent intensity value 5% is sufficient for nominal turbulence through a circular inlet, and is good estimate in absense of experimental data.</p></li>
+<li><p>For external flows, turbulent viscosity ratio of 1-10 is typically good.</p></li>
+<li><p>For internal flows, turbulent viscosity ratio of 10-100 is typically good.</p></li>
+<li><p>For fully developed pipe flow at Re=50000, the turbulent viscosity ratio is around 100.</p></li>
+</ul>
+</section>
+</section>
+<section id="heat-transfer">
+<h2>Heat transfer<a class="headerlink" href="#heat-transfer" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Conduction, convection (forced and natural), radiation problems  would require solving energy equation.</p></li>
+<li><p>Interphase energy, fluid-solid conjugate heat trasnfer, viscous dissipation, species diffusion etc are some examples.</p></li>
+<li><p>The rate of heat transfer depends strongly on fluid velocity.</p></li>
+<li><p>Fluid properties may vary significantly with temperature.</p></li>
+<li><p>At walls, the heat transfer coefficient is computed by the turbulent thermal wall functions.</p></li>
+</ul>
+<figure class="align-default" id="id11">
+<img alt="_images/qdelt.png" src="_images/qdelt.png" />
+<figcaption>
+<p><span class="caption-text">here <span class="math notranslate nohighlight">\(\bar{h}\)</span> is average heat transfer coefficient <span class="math notranslate nohighlight">\((W/m^2-K)\)</span></span><a class="headerlink" href="#id11" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul>
+<li><p>Conduction is governed by Fourier’s Law. Fluent computes conduction in all fluid and solid zones when the eneergy equation is activated.</p></li>
+<li><p>Fourier’s law states that the heat trasnfer rate is directly proportional to gradient of temperature.</p></li>
+<li><p>Mathematically, <span class="math notranslate nohighlight">\(q_{conduction} = -k \nabla T\)</span></p></li>
+<li><p>Constant of proportionality is thermal conductivity (k), where k may be a function of temperature, space, etc. It can also be isotropic materials, where k is a constant value. This can also be for anisotropic materials, where k is a matrix.</p></li>
+<li><p>Thermal conditions at wall can have the following definitions,</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Constant heat flux or temperature.</p></li>
+<li><p>Convection, Radiation, Mixed for external environment that is not modelled using user prescribed heat trasnfer coefficient and or external emmissivity and radiation temperature.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}q_{conv} = h_{ext}(T_{ext} - T_{w})\\q_{rad} = \epsilon_{ext} (T_{\infty}^4 - T_w^4)\\q_{mixed} = h_{ext} (T_{ext} - T_{w}) + \epsilon_{ext} (T_{\infty}^4 - T_w^4)\end{aligned}\end{align} \]</div>
+</div>
+<ul class="simple">
+<li><p>One can also define boundary conditions using system-coupling. i.e. Fluent is coupled with another system in workbench using system coupling. However, this will be difficult to set in Fluent itself for HPC use.</p></li>
+<li><p>Mapped interface is another way of applying boundary conditions, only used with non-conformal interfaces.</p></li>
+</ul>
+<p>Heat transfer in walls is modelled in several ways, as indicated in the figure below</p>
+<figure class="align-default">
+<img alt="_images/heat-conduction.png" src="_images/heat-conduction.png" />
+</figure>
+<p>It is often important to model the thermal effects of the wall bounding the fluid but it may not be necessary to mesh it.</p>
+<ul class="simple">
+<li><p>Meshing the wall in the pre-processor and assigning it as a solid cell-zone. This is the most thorough approach.</p></li>
+<li><p>Another option would be to mesh the fluid region with specific wall thickness and wall conduction accounted for.</p></li>
+<li><p>Third option is to enable shell conduction, where one or more layers of virtual cells will be created.</p></li>
+<li><p>Conjugate heat transfer is another type of heat trasnfer problem that can be solved using Fluent.</p></li>
+<li><p>At a wall between a fluid and a solid zone or a wall with fluid on both sides, a wall/ wall_shadow is created automatically by Fluent while reading the mesh file.</p></li>
+<li><p>Natural convection occurs when the fluid density is temperature dependent and heat is added to fluid</p></li>
+<li><p>Flow is induced by gravitational foce acting on density difference.</p></li>
+<li><p>When gravity is activated in Fluent, the pressure gradient and body forces terms in the momentum equation are rewritten as</p></li>
+</ul>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[ \begin{align}\begin{aligned}\begin{split}- \frac{\partial p}{\partial x} + \rho g \Rightarrow  - \frac{\partial p^\prime}{\partial x} + (\rho - \rho_0)g \\\end{split}\\p^\prime = p - \rho_0 g x\end{aligned}\end{align} \]</div>
+</div>
+<ul class="simple">
+<li><p>The transformation aviods roundoff error when gravity is enabled.</p></li>
+<li><p>For radiation, where mode of energy transfer is electromagnetic waves.</p></li>
+<li><p>For semi-transparent bodies (e.g. glass, combustion product gases), radiation is a volumetric phenomenon since emissions can escape from within bodies.</p></li>
+<li><p>For opaque bodies, radiation is essentially a surface phenomenon since nearly all internal emissions are absorbed within the body.</p></li>
+<li><p>Radiation shoudl be included if in a simulation, if</p></li>
+</ul>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[q_{rad} = \sigma \epsilon (T_{max} ^ 4 -  T_{min}^4)\]</div>
+</div>
+<p>is of the same order of magnitude than the convective and conductive heat tranfer rates. This is usually true at high temperatures but can also be true at lower temperatures depnding on application.</p>
+<ul class="simple">
+<li><p>Estimate the magnitude of conduction or convection heat transfer in the system as</p></li>
+</ul>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[q_{conv} = h (T_{wall} - T_{bulk})\]</div>
+</div>
+<p>And then compare <span class="math notranslate nohighlight">\(q_{rad}\)</span> with <span class="math notranslate nohighlight">\(q_{conv}\)</span>.</p>
+<ul class="simple">
+<li><p>Optical thickness <span class="math notranslate nohighlight">\((a+\sigma_s)L\)</span> should be determined before choosing a radiation model. (Where a is absorption coefficient, <span class="math notranslate nohighlight">\(\sigma_s\)</span> is scatterring coefficient and is often 0, while L is mean beam length.)</p></li>
+<li><p>Optically thin means that the fluid is transparent to the radiation at wavelengths where the heat transfer occurs.</p></li>
+<li><p>Optically thick means that the fluid absovs and re-emits teh radiation.</p></li>
+<li><p>Choosing a radiation model, must be appropriately selected for the optical thickness of the system being simulated.</p></li>
+<li><p>For instance, surface to surface (S2S) can have 0 optical thickness.</p></li>
+<li><p>Solar load model, when it is 0 except for window panes.</p></li>
+<li><p>Rosseland model for thickness <span class="math notranslate nohighlight">\(\geq\)</span> 5. This is inexpensive but limited in applicability.</p></li>
+<li><p>Discrete ordinates model (DO) is valid for all thickness, and is also very comprehensive. This is Computationally expensive than S2S.</p></li>
+<li><p>Discrete transfer method (DTRM) is also valid for all thickness, and is cheaper than Discrete ordinate, but not available in prallel so is rarely used.</p></li>
+<li><p>Monte carlo (MC) is the most accurate model but is also computationally expensive.</p></li>
+</ul>
+</section>
+<section id="transient-flow">
+<h2>Transient flow<a class="headerlink" href="#transient-flow" title="Link to this heading">#</a></h2>
+<p>Transient flows originated from unsteady flows observed in form of instability within the fluid or non-equilibrium initial fluid state.
+Exapmles are natural convection flows, turbulent eddies of all scales, fluid waves, gravity waves and shock waves.</p>
+<ul class="simple">
+<li><p>Forced unsteadiness is also observed where time-dependent boundary conditions and source terms drive the unsteady flow field.</p></li>
+<li><p>Pulsing flow in a nozzel, rotor-stator interaction in a turbine stage.</p></li>
+<li><p>Natural frequencies (Strouhal numbers), time averaged RMS values, time related parameter (time required to cool a hot solid, residence time of a pollutant) and spectral data fourier transform are all examples of quantities of interests for unsteady flow.</p></li>
+<li><p>Transient simulations are solved by computing a solution for many discrete points in time.</p></li>
+<li><p>At each time point, a solution should be iterated.</p></li>
+</ul>
+<figure class="align-default">
+<img alt="_images/transient.png" src="_images/transient.png" />
+</figure>
+<p>A time step size is an important parameter in transient simulations. This should be small enough to resolve time-dependent features</p>
+<figure class="align-default" id="id12">
+<img alt="_images/timestep.png" src="_images/timestep.png" />
+<figcaption>
+<p><span class="caption-text">Importance of time step within Transient settings.</span><a class="headerlink" href="#id12" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<ul class="simple">
+<li><p>Note that residual plots for transient simulations are not always indicative of a converged solution.</p></li>
+<li><p>Time step size should be selected such that the residuals reduce by around three orders of magnitude within one time step.</p></li>
+<li><p>For smaller time steps, residuals may only drop 1-2 orders of magnitude. Look for a monotonic decrease throughout the time step.</p></li>
+<li><p>The quantity of interest may be changing very slowly, (e.g. temperature in a solid) but a larger time step could not be used if other quantities (e.g. velocities) have smaller timescales.</p></li>
+<li><p>Courant number is often used to estimate time step. i.e</p></li>
+</ul>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\text{Courant number} = \frac{\text{Characteristic flow velocity} \times \delta t}{\text{Typical cell size}}.\]</div>
+</div>
+<p>This would give the number of mesh elements the fluid passes through in one time step.
+- Typical values are 1-10, but in some cases higher values are acceptable.</p>
+<section id="tips-for-selecting-time-step">
+<h3>Tips for selecting time step<a class="headerlink" href="#tips-for-selecting-time-step" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Usual case,</p></li>
+</ul>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\delta t = \frac{1 \times L}{3 \times V}\]</div>
+</div>
+<p>, where L is characteristic length and v is characteristic velocity.</p>
+<ul class="simple">
+<li><p>For turbomachinery problems,</p></li>
+</ul>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\delta T = \frac{1 \times \text{Number of Blades}}{10 \times \text{Rotational velocity}}\]</div>
+</div>
+<ul class="simple">
+<li><p>For natural convection problems,</p></li>
+</ul>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\delta T = \frac{L}{\sqrt(g \beta \delta T L)}\]</div>
+</div>
+<ul class="simple">
+<li><p>For Conduction in solids,</p></li>
+</ul>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\delta t = \frac{L^2}{(\frac{\lambda}{\rho C_p})}\]</div>
+</div>
+<ul class="simple">
+<li><p>A smaller time step will typically improve convergence at the cost of making the simulation longer.</p></li>
+<li><p>With pressure based solver, use PISO scheme for pressure-velocity coupling. This scheme provides faster convergecne for unsteady flows than the standard SIMPLE approach.</p></li>
+<li><p>Select the number of iterations per time step to be around 20.</p></li>
+<li><p>It is usually better to reduce the time step size than to do to many iterations per time step.</p></li>
+<li><p>Remember that accurate intial conditions are as important as boundary conditions for unstead problems.</p></li>
+<li><p>Initial conditions should always be physically realistic.</p></li>
+<li><p>to iterate without advancing in time, specify zero time steps. This will instruct the solver to converge the current time step only.</p></li>
+</ul>
+<div class="admonition attention">
+<p class="admonition-title">Attention</p>
+<p>Feel free to write to <a class="reference external" href="mailto:atul&#46;singh1&#37;&#52;&#48;nottingham&#46;ac&#46;uk">atul<span>&#46;</span>singh1<span>&#64;</span>nottingham<span>&#46;</span>ac<span>&#46;</span>uk</a> for any Fluent related questions. (Suggestions, corrections if any or additions?).</p>
+</div>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="05pointers.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">General approaches for Ansys Fluent</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Atul Singh
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Best practices</a><ul>
+<li><a class="reference internal" href="#errors">Errors</a></li>
+<li><a class="reference internal" href="#mesh">Mesh</a></li>
+<li><a class="reference internal" href="#turbulence">Turbulence</a><ul>
+<li><a class="reference internal" href="#example-y-calculation">Example y+ calculation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#heat-transfer">Heat transfer</a></li>
+<li><a class="reference internal" href="#transient-flow">Transient flow</a><ul>
+<li><a class="reference internal" href="#tips-for-selecting-time-step">Tips for selecting time step</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>

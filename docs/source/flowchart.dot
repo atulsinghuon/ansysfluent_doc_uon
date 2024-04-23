@@ -1,0 +1,30 @@
+digraph DiagramName {
+//Comments are inserted in the same way as C++
+label = "MultiplyByParam Workflow Diagram"
+$global_style
+
+subgraph params {
+  //These keywords beginning with $ are replaced with commands to style all the nodes in the subgraph correctly
+  $param_style
+  inputWorkspace  [label="InputWorkspace"]
+  outputWorkspace [label="OutputWorkspace"]
+  coefficient     [label="Coefficient"]
+}
+
+subgraph decisions {
+  $decision_style
+  checkCoefficient [label="Was Coefficient\ngiven?"]
+}
+
+subgraph algorithms {
+  $algorithm_style
+  scale [label="Scale"]
+}
+
+//Define the connections, labelling some of them
+inputWorkspace   -> checkCoefficient
+coefficient      -> scale           [label="Factor"]
+checkCoefficient -> scale           [label="Yes"]
+checkCoefficient -> outputWorkspace [label="No"]
+scale            -> outputWorkspace
+}
